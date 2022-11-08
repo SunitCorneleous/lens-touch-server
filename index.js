@@ -20,6 +20,7 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const servicesCollection = client.db("lensTouch").collection("services");
+    const reviewsCollection = client.db("lensTouch").collection("reviews");
 
     // get services
     app.get("/services", async (req, res) => {
@@ -31,7 +32,7 @@ async function run() {
       res.send(services);
     });
 
-    // get single service
+    // get service by id
     app.get("/services/:id", async (req, res) => {
       const id = req.params.id;
 
@@ -40,6 +41,20 @@ async function run() {
       const service = await servicesCollection.findOne(query);
 
       res.send(service);
+    });
+
+    // post review
+    app.post("/reviews", async (req, res) => {
+      const review = req.body;
+
+      const doc = {
+        ...review,
+        date: new Date(),
+      };
+
+      const result = await reviewsCollection.insertOne(doc);
+
+      res.send(result.acknowledged);
     });
   } finally {
     //
