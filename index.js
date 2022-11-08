@@ -56,6 +56,16 @@ async function run() {
 
       res.send(result.acknowledged);
     });
+
+    // get all reviews
+    app.get("/reviews/:serviceId", async (req, res) => {
+      const query = { service_id: req.params.serviceId };
+
+      const cursor = reviewsCollection.find(query).sort({ date: -1 });
+      const result = await cursor.toArray();
+
+      res.send(result);
+    });
   } finally {
     //
   }
