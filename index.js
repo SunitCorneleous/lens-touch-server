@@ -66,6 +66,16 @@ async function run() {
 
       res.send(result);
     });
+
+    // get reviews by email
+    app.get("/myreviews/:email", async (req, res) => {
+      const query = { user_email: req.params.email };
+
+      const cursor = reviewsCollection.find(query);
+      const reviews = await cursor.toArray();
+
+      res.send(reviews);
+    });
   } finally {
     //
   }
