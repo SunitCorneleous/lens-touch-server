@@ -54,10 +54,10 @@ async function run() {
 
       const result = await reviewsCollection.insertOne(doc);
 
-      res.send(result.acknowledged);
+      res.send(result);
     });
 
-    // get all reviews
+    // get all reviews by serviceId
     app.get("/reviews/:serviceId", async (req, res) => {
       const query = { service_id: req.params.serviceId };
 
