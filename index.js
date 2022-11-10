@@ -106,7 +106,7 @@ async function run() {
     });
 
     // update a review
-    app.put("/reviews/:id", async (req, res) => {
+    app.put("/reviews/:id", verifyJWT, async (req, res) => {
       const id = req.params.id;
       const query = { _id: ObjectId(id) };
 
@@ -164,7 +164,7 @@ async function run() {
     });
 
     // delete a review by id
-    app.delete("/reviews/:id", async (req, res) => {
+    app.delete("/reviews/:id", verifyJWT, async (req, res) => {
       const id = req.params.id;
 
       const query = { _id: ObjectId(id) };
