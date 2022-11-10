@@ -25,7 +25,7 @@ function verifyJWT(req, res, next) {
 
   // check if the auth token exists
   if (!authHeader) {
-    res.status(401).send({ message: "unauthorized access" });
+    return res.status(401).send({ message: "unauthorized access" });
   }
 
   // split the token
@@ -34,7 +34,7 @@ function verifyJWT(req, res, next) {
   // verify the token
   jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, function (err, decoded) {
     if (err) {
-      return res.status(401).send({ message: "unauthorized access" });
+      return res.status(401).send({ message: "forbidden access" });
     }
     // set the decoded token to req
     req.decoded = decoded;
@@ -142,7 +142,7 @@ async function run() {
       const decoded = req.decoded;
 
       if (decoded.email !== req.params.email) {
-        res.status(401).send({
+        res.status(403).send({
           message: "unauthorized access",
         });
       }
